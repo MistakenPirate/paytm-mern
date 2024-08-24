@@ -9,7 +9,14 @@ router.get("/balance", authMiddleware, async (req, res) => {
   const account = await Account.findOne({
     userId: req.userId,
   });
-  res.json({
+  
+  if (!account) {
+    return res.status(403).json({
+      message: "Account does not exists",
+    });
+  }
+
+  return res.json({
     balance: account.balance,
   });
 });
